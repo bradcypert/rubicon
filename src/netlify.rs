@@ -40,7 +40,7 @@ async fn handle_list(cmd: Cli, config: Configuration) -> Result<(), Box<dyn Erro
     match &*cmd.subcommand {
         "sites" => list_resources(cmd, config).await,
         // "deploys" => list_deploys(cmd, config),
-        _ => Result::Err(CommandNotFoundError.into())
+        _ => Result::Err(SubcommandNotFoundError.into())
     }
 }
 

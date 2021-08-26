@@ -1,13 +1,13 @@
 #[macro_use]
 extern crate dotenv;
 
+use crate::netlify::process_cmd;
+use dotenv::dotenv;
+use serde::{Deserialize, Serialize};
+use std::env;
 use std::error::Error;
 use std::fmt;
-use std::env;
-use dotenv::dotenv;
 use structopt::StructOpt;
-use serde::{Serialize, Deserialize};
-use crate::netlify::process_cmd;
 
 mod netlify;
 
@@ -26,7 +26,11 @@ pub struct CliConfig {
 }
 
 impl std::default::Default for CliConfig {
-    fn default() -> Self { Self { netlify_token: Some("".into()) } }
+    fn default() -> Self {
+        Self {
+            netlify_token: Some("".into()),
+        }
+    }
 }
 
 #[derive(Debug, Clone)]
@@ -45,7 +49,7 @@ pub async fn main() -> Result<(), Box<dyn Error>> {
     dotenv::from_filename(".rubicon").unwrap();
 
     let config = CliConfig {
-        netlify_token: env::var("NETLIFY_TOKEN").ok()
+        netlify_token: env::var("NETLIFY_TOKEN").ok(),
     };
 
     match cmd.platform.as_deref().unwrap_or("") {

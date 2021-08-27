@@ -1,8 +1,5 @@
-#[macro_use]
 extern crate dotenv;
-
 use crate::netlify::process_cmd;
-use dotenv::dotenv;
 use serde::{Deserialize, Serialize};
 use std::env;
 use std::error::Error;

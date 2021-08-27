@@ -80,8 +80,6 @@ async fn list_deploys(cmd: Cli, config: Configuration) -> Result<(), Box<dyn Err
             let site_id = site.id.as_ref().unwrap();
             let deploy_details = netlify::deploy_api::list_site_deploys(&config, site_id, None, None).await?;
             
-            let last_five: Vec<&netlify_rust::models::Deploy> = deploy_details.iter().take(5).collect();
-
             println!("Deploys for {}:", site.name.as_ref().unwrap());
             for deploy in deploy_details.iter().take(5) {
                 // TODO: We may not have branch info if its a manual upload

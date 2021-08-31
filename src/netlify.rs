@@ -83,12 +83,16 @@ async fn list_deploys(cmd: Cli, config: Configuration) -> Result<(), Box<dyn Err
             println!("Deploys for {}:", site.name.as_ref().unwrap());
             for deploy in deploy_details.iter().take(5) {
                 // TODO: We may not have branch info if its a manual upload
+                let created = chrono::DateTime::parse_from_rfc3339(deploy.created_at.as_ref().unwrap()).unwrap();
+                let updated = chrono::DateTime::parse_from_rfc3339(deploy.updated_at.as_ref().unwrap()).unwrap();
+                let published = chrono::DateTime::parse_from_rfc3339(deploy.published_at.as_ref().unwrap()).unwrap();
+                
                 println!("[Build ID: {}] branch {} - {}", deploy.build_id.as_ref().unwrap_or(&String::from("unknown")).blue(), deploy.branch.as_ref().unwrap_or(&String::from("unknown")).yellow(), deploy.state.as_ref().unwrap());
                 println!("|- Commit Ref: {}", deploy.commit_ref.as_ref().unwrap_or(&String::from("unknown")).cyan());
                 println!("|- Commit URL: {}", deploy.commit_url.as_ref().unwrap_or(&String::from("unknown")).cyan());
-                println!("|- Created: {}", deploy.created_at.as_ref().unwrap().magenta());
-                println!("|- Updated: {}", deploy.created_at.as_ref().unwrap().magenta());
-                println!("|- Published: {}", deploy.created_at.as_ref().unwrap().magenta());
+                println!("|- Created: {}", created.to_string().magenta());
+                println!("|- Updated: {}", updated.to_string().magenta());
+                println!("|- Published: {}", published.to_string().magenta());
                 println!("");
             }
 
